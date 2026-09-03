@@ -1,1 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Kirong AI — a practical assistant for learning, creating, and getting work done.">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+    <title>Kirong AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="app-shell">
+      <aside id="sidebar" class="sidebar" aria-label="Main navigation">
+        <div class="sidebar-header">
+          <a class="brand" href="#" aria-label="Kirong AI home"><span aria-hidden="true">♛</span> Kirong AI</a>
+          <button id="sidebarCloseBtn" class="icon-button mobile-only" type="button" aria-label="Close menu">×</button>
+        </div>
+        <button id="sidebarNewChatBtn" class="button button-primary sidebar-new" type="button">＋ New chat</button>
+        <nav class="tab-list" aria-label="Workspace">
+          <button class="tabBtn active" type="button" data-tab="chat" aria-controls="chat" aria-selected="true"><span aria-hidden="true">⌕</span> Chat</button>
+          <button class="tabBtn" type="button" data-tab="projects" aria-controls="projects" aria-selected="false"><span aria-hidden="true">▣</span> Projects</button>
+          <button class="tabBtn" type="button" data-tab="tools" aria-controls="tools" aria-selected="false"><span aria-hidden="true">✦</span> Tools</button>
+          <button class="tabBtn" type="button" data-tab="history" aria-controls="history" aria-selected="false"><span aria-hidden="true">◷</span> History</button>
+        </nav>
+        <div class="sidebar-history">
+          <p class="eyebrow">Recent chats</p>
+          <div id="sidebarHistoryList" aria-label="Recent chats"></div>
+        </div>
+        <button id="sidebarPlanBadge" class="plan-card" type="button"><span>Free plan</span><small>Upgrade for more</small></button>
+      </aside>
+      <div id="sidebarOverlay" class="sidebar-overlay" aria-hidden="true"></div>
 
+      <main id="main-content" class="main-content">
+        <header class="topbar">
+          <button id="sidebarToggle" class="icon-button mobile-only" type="button" aria-label="Open menu">☰</button>
+          <div><p class="eyebrow">YOUR INTELLIGENT WORKSPACE</p><h1>Kirong AI</h1></div>
+          <div class="topbar-actions">
+            <button id="languageBtn" class="icon-button" type="button" aria-label="Choose language" title="Language">Aあ</button>
+            <button id="usageLimitsBtn" class="plan-badge" type="button"><span id="planBadge">Free</span><span class="sr-only">View usage limits</span></button>
+          </div>
+        </header>
+
+        <section id="chat" class="tabPanel active" role="tabpanel">
+          <div class="panel-toolbar">
+            <div id="modeBanner" class="mode-banner hidden" aria-live="polite"></div>
+            <div class="toolbar-actions">
+              <button id="newChatBtn" class="button button-secondary" type="button">＋ New chat</button>
+              <button id="exportChatBtn" class="text-button" type="button">Export</button>
+              <button id="clearChatBtn" class="text-button danger" type="button">Clear</button>
+            </div>
+          </div>
+          <div id="usageBarWrap" class="usage" aria-label="Plan usage"><div class="usage-label"><span>Usage</span><span id="usageBarPercent">0%</span></div><div class="progress-track"><span id="usageBarFill"></span></div></div>
+          <div id="chatBox" class="chat-box" aria-live="polite" aria-label="Conversation">
+            <div class="welcome-card"><span class="welcome-crown" aria-hidden="true">♛</span><h2>What can I help you create?</h2><p>Ask a question, upload a document, or choose a tool to get started.</p></div>
+          </div>
+          <div id="thinking" class="thinking hidden" aria-live="polite"><span></span><span></span><span></span> Kirong AI is thinking…</div>
+          <form class="composer" onsubmit="return false;">
+            <div id="filePreview" aria-live="polite"></div>
+            <label class="sr-only" for="userInput">Your message</label>
+            <textarea id="userInput" rows="1" maxlength="30000" placeholder="Ask Kirong anything..."></textarea>
+            <input id="fileInput" type="file" hidden>
+            <div class="composer-actions">
+              <div class="composer-tools">
+                <button id="attachBtn" class="icon-button" type="button" aria-label="Attach a file" title="Attach file">⌇</button>
+                <button id="imageModeBtn" class="icon-button" type="button" aria-label="Toggle image generation" aria-pressed="false" title="Image mode">◉</button>
+                <button id="micBtn" class="icon-button" type="button" aria-label="Use voice input" title="Voice input">◉</button>
+                <button id="voiceReplyBtn" class="icon-button" type="button" aria-label="Toggle voice replies" aria-pressed="false" title="Voice replies">🔊</button>
+              </div>
+              <button id="sendBtn" class="button button-primary send-button" type="button">Send <span aria-hidden="true">↑</span></button>
+            </div>
+          </form>
+          <p class="composer-note">Kirong AI can make mistakes. Check important information.</p>
+        </section>
+
+        <section id="projects" class="tabPanel" role="tabpanel" hidden>
+          <div class="section-heading"><div><p class="eyebrow">YOUR WORK</p><h2>Projects</h2><p>Keep your ideas and important work in one place.</p></div><button id="newProjectBtn" class="button button-primary" type="button">＋ New project</button></div>
+          <div id="projectsGrid" class="projects-grid"></div>
+        </section>
+
+        <section id="tools" class="tabPanel" role="tabpanel" hidden>
+          <div class="section-heading"><div><p class="eyebrow">WORK SMARTER</p><h2>Tools</h2><p>Choose a focused mode and start with a useful prompt.</p></div><div class="toolbar-actions"><button id="exportToolsBtn" class="text-button" type="button">Export</button><button id="clearToolsBtn" class="text-button danger" type="button">Clear</button></div></div>
+          <div class="tools-grid">
+            <button class="toolCard" type="button" data-mode="content" data-prompt="Help me create engaging content for my audience."><span>📝</span><h3>Content Factory</h3><p>Create posts, captions, and content ideas.</p></button>
+            <button class="toolCard" type="button" data-mode="whatsapp" data-prompt="Help me write a professional WhatsApp business message."><span>📱</span><h3>WhatsApp Business</h3><p>Write messages that get replies.</p></button>
+            <button class="toolCard" type="button" data-mode="blog" data-prompt="Help me outline a useful blog post."><span>✍️</span><h3>Blog Engine</h3><p>Plan and write better articles.</p></button>
+            <button class="toolCard" type="button" data-mode="affiliate" data-prompt="Help me create an affiliate marketing plan."><span>🤝</span><h3>Affiliate Engine</h3><p>Build practical promotion ideas.</p></button>
+            <button class="toolCard" type="button" data-mode="school" data-prompt="Help me understand this topic step by step."><span>🎓</span><h3>School Mode</h3><p>Learn with clear explanations.</p></button>
+            <button id="visionToolCard" class="toolCard" type="button"><span>👁</span><h3>Image Analysis</h3><p>Upload an image and ask about it.</p></button>
+            <button id="photoEditorCard" class="toolCard" type="button"><span>🖼</span><h3>Photo Editor</h3><p>Crop, resize, rotate, and enhance images.</p></button>
+            <button id="referralToolCard" class="toolCard" type="button"><span>🎁</span><h3>Invite friends</h3><p>Share Kirong AI with your network.</p></button>
+          </div>
+          <input id="photoEditorFileInput" type="file" accept="image/*" hidden>
+        </section>
+
+        <section id="history" class="tabPanel" role="tabpanel" hidden>
+          <div class="section-heading"><div><p class="eyebrow">YOUR ARCHIVE</p><h2>Chat history</h2></div><div class="toolbar-actions"><button id="exportHistoryBtn" class="text-button" type="button">Export</button><button id="clearHistoryBtn" class="text-button danger" type="button">Clear all</button></div></div>
+          <label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">Search chat history</span><input id="historySearchInput" type="search" placeholder="Search chats"></label>
+          <div id="historyList" class="history-list"></div>
+        </section>
+      </main>
+    </div>
+
+    <div id="onboardingOverlay" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+      <div class="modal-box onboarding"><span class="welcome-crown" aria-hidden="true">♛</span><h2 id="onboarding-title">Welcome to Kirong AI</h2><p>Tell us how you would like to be addressed.</p><label for="onboardingName">Your name</label><input id="onboardingName" type="text" autocomplete="name" placeholder="e.g. Amina"><div class="onboarding-options"><button class="onboardingOption active" type="button" data-value="personal">Personal</button><button class="onboardingOption" type="button" data-value="business">Business</button><button class="onboardingOption" type="button" data-value="student">Student</button></div><div class="modal-actions"><button id="skipOnboarding" class="button button-secondary" type="button">Skip for now</button><button id="finishOnboarding" class="button button-primary" type="button">Continue</button></div></div>
+    </div>
+    <script src="app.js" defer></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch((error) => {
+            console.warn("Service worker registration failed:", error);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
