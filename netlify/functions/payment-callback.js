@@ -1,9 +1,6 @@
-import handler from "../../api/payment callback.js";
+import vercelHandler from "../../api/payment callback.js";
 import { runVercelHandler } from "../lib/vercel-bridge.js";
 
 export async function handler(event) {
-  return runVercelHandler(
-    event,
-    handler
-  );
+  return runVercelHandler(event, vercelHandler);
 }
