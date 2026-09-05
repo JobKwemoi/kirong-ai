@@ -1,9 +1,6 @@
-import handler from "../../api/user.js";
+import vercelHandler from "../../api/user.js";
 import { runVercelHandler } from "../lib/vercel-bridge.js";
 
 export async function handler(event) {
-  return runVercelHandler(
-    event,
-    handler
-  );
+  return runVercelHandler(event, vercelHandler);
 }
